@@ -1,6 +1,6 @@
 let id = 0
 function source() {
-    lab.sea.spawn(dna.Cell, {
+    lab.sea.bio.spawn(dna.Cell, {
         name: 'embrio' + (++id),
         x: 0,
         y: 0,
