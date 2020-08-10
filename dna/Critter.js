@@ -1,11 +1,18 @@
 const df = {
-    speed: 10,
+    speed: 70,
 }
 
 class Critter {
     constructor(st) {
         augment(this, df)
         augment(this, st)
+    }
+
+    attach(cell) {
+        if (!this.head) {
+            this.head = cell
+        }
+        cell.parent = this
     }
 
     moveTo(x, y) {
@@ -33,7 +40,7 @@ class Critter {
     draw() {
         if (this.target) {
             fill('#ff0000')
-            circle(this.target[0], this.target[1], 5)
+            circle(this.target[0], this.target[1], 2)
         }
     }
 }
