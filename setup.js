@@ -18,11 +18,24 @@ function setup() {
         team: 1,
         name: 'hero',
     })
-    const head = lab.sea.bio.spawn(dna.Cell, {
-        team: 1,
-        x: 50,
-        y: 50,
+
+    hero.attach( lab.sea.bio.spawn(dna.Cell, {
+        x: 40,
+        y: 40,
+        r: 15,
+    }))
+
+    hero.attach( lab.sea.bio.spawn(dna.Cell, {
+        x: 75,
+        y: 75,
         r: 10,
-    })
-    hero.attach(head)
+    }))
+
+    /*
+    hero.attach( lab.sea.bio.spawn(dna.Cell, {
+        x: 90,
+        y: 90,
+        r: 10,
+    }))
+    */
 }

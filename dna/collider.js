@@ -10,7 +10,10 @@ function evo(dt) {
             const head = e.head
             for (let j = 0; j < J; j++) {
                 const target = tls[j]
-                if (target.touch && target !== head) {
+                if (!target.dead
+                        && target.touch
+                        && target !== head
+                        && (!target.parent || target.parent !== e)) {
                     target.touch(head)
                 }
             }

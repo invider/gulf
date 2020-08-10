@@ -5,6 +5,7 @@ const df = {
     r: 10,
     dx: 0,
     dy: 0,
+    linkSpeed: 40,
 }
 
 let id = 0
@@ -16,21 +17,41 @@ class Cell {
         augment(this, st)
     }
 
-    hit() {
+    hit(source) {
         this.kill()
+        source.parent.eat(this)
     }
 
     touch(source) {
         const d = dist(this.x, this.y, source.x, source.y)
         const r = this.r + source.r
         if (d < r) {
-            this.hit()
+            this.hit(source)
         }
+    }
+
+    evoTug(dt, target) {
+        // find direction on prev segment
+        const fi = Math.atan2(this.y-target.y, this.x-target.x)
+        const dir = lib.v2a.unit(fi)
+        const svec = lib.v2a.scale(dir,
+                this.linkSpeed * dt)
+        // move cell in the target direction
+        this.x -= svec[0]
+        this.y -= svec[1]
     }
 
     evo(dt) {
         this.x += this.dx * dt
         this.y += this.dy * dt
+
+        if (this.prev) {
+            const prev = this.prev
+            const d = dist(this.x, this.y, prev.x, prev.y)
+            if (d > 2.5*this.r) {
+                this.evoTug(dt, prev)
+            }
+        }
     }
 
     draw() {

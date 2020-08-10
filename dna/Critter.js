@@ -1,5 +1,5 @@
 const df = {
-    speed: 70,
+    speed: 50,
 }
 
 class Critter {
@@ -9,10 +9,25 @@ class Critter {
     }
 
     attach(cell) {
+        cell.parent = this
+        cell.team = this.team
         if (!this.head) {
             this.head = cell
+            this.tail = cell
+        } else {
+            cell.prev = this.tail
+            this.tail.next = cell
+            this.tail = cell
         }
-        cell.parent = this
+    }
+
+    eat(cell) {
+        const next = lab.sea.bio.spawn(dna.Cell, {
+            x: this.tail.x,
+            y: this.tail.y,
+            r: 10,
+        })
+        this.attach(next)
     }
 
     moveTo(x, y) {
