@@ -1,14 +1,5 @@
 function setup() {
-    lab.spawn('SlideCamera', {
-        name: 'sea',
-        x: 0,
-        y: 0,
-        zoomOnPlusMinus: true,
-    })
-    _.bio = lab.sea.touch('bio')
-    _.tie = lab.sea.touch('tie')
-    _.fx  = lab.sea.touch('fx')
-    lab.sea.spawn(dna.collider)
+    lib.gen.camera()
 
     trap('source')
     trap('source')
@@ -30,6 +21,8 @@ function setup() {
         y: 75,
         r: 10,
     }))
+
+    lab.sea.follow(hero.head, true)
 
     /*
     hero.attach( lab.sea.bio.spawn(dna.Cell, {
