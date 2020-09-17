@@ -6,6 +6,10 @@ const df = {
     dx: 0,
     dy: 0,
     linkSpeed: 40,
+
+    driftSpeed: 10,
+    driftTime: .4,
+    driftTimer: 0,
 }
 
 let id = 0
@@ -30,6 +34,24 @@ class Cell {
         }
     }
 
+    evoDrift(dt, target) {
+        this.driftTimer -= dt
+
+        if (this.driftTimer <= 0) {
+            // pick a random direction 
+            let fi = Math.atan2(this.y-target.y, this.x-target.x)
+            fi = fi + HALF_PI * lib.math.rnds()
+            this.dir = lib.v2a.unit(fi)
+            this.driftTimer = this.driftTime + this.driftTime * rnd()
+        }
+
+        const svec = lib.v2a.scale(this.dir,
+                this.driftSpeed * dt)
+        // move cell in the target direction
+        this.x -= svec[0]
+        this.y -= svec[1]
+    }
+
     evoTug(dt, target) {
         // find direction on prev segment
         const fi = Math.atan2(this.y-target.y, this.x-target.x)
@@ -46,10 +68,13 @@ class Cell {
         this.y += this.dy * dt
 
         if (this.prev) {
+            // tag along
             const prev = this.prev
             const d = dist(this.x, this.y, prev.x, prev.y)
             if (d > 2.5*this.r) {
                 this.evoTug(dt, prev)
+            } else {
+                this.evoDrift(dt, prev)
             }
         }
     }
