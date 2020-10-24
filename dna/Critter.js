@@ -9,6 +9,12 @@ const df = {
     speedBoost: 50,
     speedDown: 10,
     boostTime: 2,
+
+    jawWidth: PI/4,
+    jawOpen: PI/4,
+    jawRate: 1,
+    jawSpeed: 2,
+    jawDir: -1,
 }
 
 class Critter {
@@ -32,6 +38,7 @@ class Critter {
     }
 
     eat(cell) {
+        // TODO consume the energy, heal and grow
         const next = lab.sea.bio.spawn(dna.Cell, {
             x: this.tail.x,
             y: this.tail.y,
@@ -122,16 +129,57 @@ class Critter {
         }
     }
 
+    moveJaws(dt) {
+        if (this.jawDir < 0) {
+            this.jawRate -= this.jawSpeed * dt
+            if (this.jawRate < 0) {
+                this.jawRate = 0
+                this.jawDir = 1
+            }
+        } else if (this.jawDir > 0) {
+            this.jawRate += this.jawSpeed * dt
+            if (this.jawRate > 1) {
+                this.jawRate = 1
+                this.jawDir = -1
+            }
+        }
+    }
+
     evo(dt) {
         this.turn(dt)
         this.adjustSpeed(dt)
         this.move(dt)
+        this.moveJaws(dt)
     }
 
     draw() {
         if (this.target) {
             fill('#ff0000')
             circle(this.target[0], this.target[1], 2)
+
+        }
+
+        const x = this.head.x
+        const y = this.head.y
+        const r = this.head.r
+
+        const width = this.jawWidth
+        const opening = this.jawOpen/2 * this.jawRate
+        const j1 = this.fi - width - opening
+        const w1 = j1 + width 
+        const j2 = this.fi + opening
+        const w2 = j2 + width
+
+        stroke( lib.util.teamColor(this.team) )
+        arc(x, y, r + 3, j1, w1)
+        arc(x, y, r + 3, j2, w2)
+    }
+
+    forEach(fn) {
+        let cur = this.head
+        while(cur) {
+            fn(cur)
+            cur = cur.next
         }
     }
 }

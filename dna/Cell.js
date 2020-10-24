@@ -88,10 +88,7 @@ class Cell {
         translate(this.x, this.y)
 
         lineWidth(1)
-        switch(this.team) {
-            case 0: stroke(.55, .55, .6); break;
-            case 1: stroke(.02, .5, .5); break;
-        }
+        stroke( lib.util.teamColor(this.team) )
         circle(0, 0, this.r)
 
         if (this.bearing) {
