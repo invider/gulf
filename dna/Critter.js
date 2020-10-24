@@ -145,6 +145,12 @@ class Critter {
         }
     }
 
+    lick(target) {
+        if (this.jawDir > 0 || this.jawRate > .25) return
+        if (target === this.head || target.parent === this.head) return
+        target.touch(this.head)
+    }
+
     evo(dt) {
         this.turn(dt)
         this.adjustSpeed(dt)
