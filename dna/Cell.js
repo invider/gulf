@@ -27,11 +27,15 @@ class Cell {
         source.parent.eat(this)
     }
 
-    touch(source) {
-        const d = dist(this.x, this.y, source.x, source.y)
-        const r = this.r + source.r
+    touch(critter) {
+        const head = critter.head
+        const jx = head.x + cos(critter.fi) * head.r
+        const jy = head.y + sin(critter.fi) * head.r
+
+        const d = dist(this.x, this.y, jx, jy)
+        const r = this.r + head.r * .5
         if (d < r) {
-            this.hit(source)
+            this.hit(head)
         }
     }
 
@@ -90,6 +94,9 @@ class Cell {
         lineWidth(1)
         stroke( lib.util.teamColor(this.team) )
         circle(0, 0, this.r)
+        if (this.prev) {
+            line(0, 0, this.prev.x - this.x, this.prev.y - this.y)
+        }
 
         if (this.bearing) {
             stroke(.01, .5, .5)

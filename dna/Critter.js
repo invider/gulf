@@ -42,7 +42,7 @@ class Critter {
         const next = lab.sea.bio.spawn(dna.Cell, {
             x: this.tail.x,
             y: this.tail.y,
-            r: 10,
+            r: 8,
         })
         this.attach(next)
     }
@@ -147,8 +147,8 @@ class Critter {
 
     lick(target) {
         if (this.jawDir > 0 || this.jawRate > .25) return
-        if (target === this.head || target.parent === this.head) return
-        target.touch(this.head)
+        if (target === this.head || target.parent === this) return
+        target.touch(this)
     }
 
     evo(dt) {
