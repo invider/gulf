@@ -5,10 +5,11 @@ const df = {
     r: 10,
     dx: 0,
     dy: 0,
-    linkSpeed: 40,
 
-    driftSpeed: 10,
-    driftTime: .4,
+    linkSpeed: 60,
+
+    driftSpeed: 5,
+    driftTime:  1,
     driftTimer: 0,
 }
 
@@ -35,7 +36,6 @@ class Cell {
     }
 
     evoDrift(dt, target) {
-        /*
         this.driftTimer -= dt
 
         if (this.driftTimer <= 0) {
@@ -51,15 +51,14 @@ class Cell {
         // move cell in the target direction
         this.x -= svec[0]
         this.y -= svec[1]
-        */
     }
 
-    evoTug(dt, target) {
+    evoTug(dt, target, speed) {
         // find direction on prev segment
         const fi = Math.atan2(this.y-target.y, this.x-target.x)
         const dir = lib.v2a.unit(fi)
         const svec = lib.v2a.scale(dir,
-                this.linkSpeed * dt)
+                speed * dt)
         // move cell in the target direction
         this.x -= svec[0]
         this.y -= svec[1]
@@ -71,7 +70,10 @@ class Cell {
             const prev = this.prev
             const d = dist(this.x, this.y, prev.x, prev.y)
             if (d > 3*this.r) {
-                this.evoTug(dt, prev)
+                this.evoTug(dt, prev, this.linkSpeed)
+            } else if (d < 2*this.r) {
+                this.evoTug(dt, prev, -this.linkSpeed)
+
             } else {
                 this.evoDrift(dt, prev)
             }
