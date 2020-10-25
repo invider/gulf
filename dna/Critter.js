@@ -6,7 +6,7 @@ const df = {
     cruiseSpeed: 20,
     maxSpeed: 60,
     speedUp: 15,
-    speedBoost: 50,
+    speedBoost: 70,
     speedDown: 10,
     boostTime: 2,
 
@@ -50,6 +50,7 @@ class Critter {
     moveTo(x, y) {
         this.target = lib.v2a.create(x, y)
         this.boost = this.boostTime
+        this.jawDir = -1
     }
 
     adjustSpeed(dt) {
@@ -176,9 +177,10 @@ class Critter {
         const j2 = this.fi + opening
         const w2 = j2 + width
 
+        lineWidth(2)
         stroke( lib.util.teamColor(this.team) )
-        arc(x, y, r + 3, j1, w1)
-        arc(x, y, r + 3, j2, w2)
+        arc(x, y, r + 4, j1, w1)
+        arc(x, y, r + 4, j2, w2)
     }
 
     forEach(fn) {
