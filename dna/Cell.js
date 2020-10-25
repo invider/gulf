@@ -8,7 +8,7 @@ const df = {
 
     linkSpeed: 60,
 
-    driftSpeed: 5,
+    driftSpeed: 15,
     driftTime:  1,
     driftTimer: 0,
 }
@@ -40,6 +40,15 @@ class Cell {
     }
 
     evoDrift(dt, target) {
+        const fi = lab.sea.current.at(this.x, this.y)
+        const cvec = lib.v2a.unit(fi)
+
+        const svec = lib.v2a.scale(cvec, this.driftSpeed * dt)
+        // drift cell by the current
+        this.x += svec[0]
+        this.y += svec[1]
+
+        /*
         this.driftTimer -= dt
 
         if (this.driftTimer <= 0) {
@@ -55,6 +64,7 @@ class Cell {
         // move cell in the target direction
         this.x -= svec[0]
         this.y -= svec[1]
+        */
     }
 
     evoTug(dt, target, speed) {
@@ -82,6 +92,7 @@ class Cell {
                 this.evoDrift(dt, prev)
             }
         } else {
+            // just drift
             this.x += this.dx * dt
             this.y += this.dy * dt
         }
