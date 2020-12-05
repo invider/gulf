@@ -22,6 +22,7 @@ function setup() {
         r: 10,
     }))
 
+    // pin the camera to the hero's head
     lab.sea.follow(hero.head, true)
 
     /*
