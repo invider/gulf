@@ -102,7 +102,8 @@ class Cell {
         save()
         translate(this.x, this.y)
 
-        lineWidth(1)
+        if (this.selected) lineWidth(3)
+        else lineWidth(1)
         stroke( lib.util.teamColor(this.team) )
         circle(0, 0, this.r)
         if (this.prev) {
