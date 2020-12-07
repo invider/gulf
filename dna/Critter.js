@@ -53,6 +53,10 @@ class Critter {
         this.jawDir = -1
     }
 
+    hit(source) {
+        log(this.name + ' is hit by ' + source.name)
+    }
+
     adjustSpeed(dt) {
         if (this.boost > 0) {
             this.boost -= dt

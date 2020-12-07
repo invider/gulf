@@ -23,8 +23,12 @@ class Cell {
     }
 
     hit(source) {
-        this.kill()
-        source.parent.eat(this)
+        if (!this.parent) {
+            this.kill()
+            source.parent.eat(this)
+        } else {
+            this.parent.hit(source)
+        }
     }
 
     touch(critter) {
