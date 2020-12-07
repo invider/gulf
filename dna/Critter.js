@@ -35,6 +35,10 @@ class Critter {
             this.tail.next = cell
             this.tail = cell
         }
+
+        if (this.length() % 3 === 0) {
+            cell.legLength = 45
+        }
     }
 
     eat(cell) {
@@ -167,7 +171,6 @@ class Critter {
         if (this.target) {
             fill('#ff0000')
             circle(this.target[0], this.target[1], 2)
-
         }
 
         const x = this.head.x
@@ -193,5 +196,15 @@ class Critter {
             fn(cur)
             cur = cur.next
         }
+    }
+
+    length() {
+        let len = 0
+        let cur = this.head
+        while(cur) {
+            len ++
+            cur = cur.next
+        }
+        return len
     }
 }

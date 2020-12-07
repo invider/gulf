@@ -6,7 +6,12 @@ const df = {
     dx: 0,
     dy: 0,
 
+    linkR: 1.5,
     linkSpeed: 60,
+
+    legLength: 0,
+    legsTension: 0,
+    tensionSpeed: 2,
 
     driftSpeed: 15,
     driftTime:  1,
@@ -52,6 +57,10 @@ class Cell {
         this.x += svec[0]
         this.y += svec[1]
 
+        // ease legs tension
+        this.legsTension = max( this.legsTension
+            - this.tensionSpeed * dt, 0)
+
         /*
         this.driftTimer -= dt
 
@@ -80,6 +89,10 @@ class Cell {
         // move cell in the target direction
         this.x -= svec[0]
         this.y -= svec[1]
+
+        // build up legs tension
+        this.legsTension = min(this.legsTension
+            + this.tensionSpeed * dt, 1)
     }
 
     evo(dt) {
@@ -87,9 +100,9 @@ class Cell {
             // tag along
             const prev = this.prev
             const d = dist(this.x, this.y, prev.x, prev.y)
-            if (d > 3*this.r) {
+            if (d > 4*this.r) {
                 this.evoTug(dt, prev, this.linkSpeed)
-            } else if (d < 2*this.r) {
+            } else if (d < 2.5*this.r) {
                 this.evoTug(dt, prev, -this.linkSpeed)
 
             } else {
@@ -102,6 +115,22 @@ class Cell {
         }
     }
 
+    drawLeg(fi) {
+        stroke( lib.util.teamColor(this.team) )
+
+        const r1 = this.r
+        const r2 = this.legLength
+        line(
+            cos(fi) * r1,
+            sin(fi) * r1,
+            cos(fi) * r2,
+            sin(fi) * r2,
+        )
+
+        fill( lib.util.teamColor(this.team) )
+        circle( cos(fi) * r2, sin(fi) * r2, this.linkR)
+    }
+
     draw() {
         save()
         translate(this.x, this.y)
@@ -111,17 +140,38 @@ class Cell {
         stroke( lib.util.teamColor(this.team) )
         circle(0, 0, this.r)
         if (this.prev) {
-            line(0, 0, this.prev.x - this.x, this.prev.y - this.y)
+            //line(0, 0, this.prev.x - this.x, this.prev.y - this.y)
+            const px = this.prev.x - this.x
+            const py = this.prev.y - this.y
+            const fi = atan2(py, px)
+
+            fill( lib.util.teamColor(this.team) )
+            circle(
+                px/2,
+                py/2,
+                this.linkR
+            )
+
+            if (this.legLength > 0) {
+                this.drawLeg(fi + (1.25 - .1 * this.legsTension)*PI)
+                this.drawLeg(fi - (1.25 - .1 * this.legsTension)*PI)
+            }
         }
 
+        /*
         if (this.bearing) {
             stroke(.01, .5, .5)
-            line(0, 0, cos(this.bearing) * 35, sin(this.bearing) * 35)
+            line(
+                cos(this.bearing) * this.r,
+                sin(this.bearing) * this.r,
+                cos(this.bearing) * this.r*1.5,
+                sin(this.bearing) * this.r*1.5)
         }
         if (this.heading) {
             stroke(.75, .5, .5)
             line(0, 0, cos(this.heading) * 25, sin(this.heading) * 25)
         }
+        */
 
         restore()
     }
