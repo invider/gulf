@@ -10,7 +10,7 @@ function evo(dt) {
             for (let j = 0; j < J; j++) {
                 const target = tls[j]
                 if (!target.dead && target.touch) {
-                    critter.lick(target)
+                    critter.lick(target, dt)
                     //target.touch(head)
                 }
             }

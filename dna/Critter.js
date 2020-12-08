@@ -15,11 +15,15 @@ const df = {
     jawRate: 1,
     jawSpeed: 2,
     jawDir: -1,
+
+    jawForce: 100,
 }
 
+let id = 0
 class Critter {
     constructor(st) {
         this.fi = lib.math.rndfi()
+        this.name = 'critter' + (++id)
         augment(this, df)
         augment(this, st)
     }
@@ -57,8 +61,12 @@ class Critter {
         this.jawDir = -1
     }
 
-    hit(source) {
-        log(this.name + ' is hit by ' + source.name)
+    hit(segment, source, dt) {
+        segment.hp -= this.jawForce * dt
+        if (segment.hp <= 0) {
+            this.cut(segment)
+        }
+        log(this.name + '/' + segment.name  + ' is hit by ' + source.name + ' !' + floor(segment.hp))
     }
 
     adjustSpeed(dt) {
@@ -154,10 +162,10 @@ class Critter {
         }
     }
 
-    lick(target) {
+    lick(target, dt) {
         if (this.jawDir > 0 || this.jawRate > .25) return
         if (target === this.head || target.parent === this) return
-        target.touch(this)
+        target.touch(this, dt)
     }
 
     evo(dt) {
@@ -206,5 +214,29 @@ class Critter {
             cur = cur.next
         }
         return len
+    }
+
+    cut(segment) {
+        if (!segment || segment.parent !== this) return
+
+        if (segment.prev) {
+            const tail = segment.prev
+            this.tail = tail
+            tail.next = null
+        }
+
+        let cur = segment
+        while(cur) {
+            const next = cur.next
+            cur.free()
+            cur = next
+        }
+
+        if (this.head === segment) this.kill()
+    }
+
+    kill() {
+        this.dead = true
+        log(this.name + ' is killed!')
     }
 }

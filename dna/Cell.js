@@ -1,5 +1,10 @@
 const df = {
     team: 0,
+    next: null,
+    prev: null,
+    parent: null,
+    hp: 10,
+
     x: 0,
     y: 0,
     r: 10,
@@ -27,16 +32,16 @@ class Cell {
         augment(this, st)
     }
 
-    hit(source) {
+    hit(source, dt) {
         if (!this.parent) {
             this.kill()
             source.parent.eat(this)
         } else {
-            this.parent.hit(source)
+            this.parent.hit(this, source, dt)
         }
     }
 
-    touch(critter) {
+    touch(critter, dt) {
         const head = critter.head
         const jx = head.x + cos(critter.fi) * head.r
         const jy = head.y + sin(critter.fi) * head.r
@@ -44,7 +49,7 @@ class Cell {
         const d = dist(this.x, this.y, jx, jy)
         const r = this.r + head.r * .5
         if (d < r) {
-            this.hit(head)
+            this.hit(head, dt)
         }
     }
 
@@ -211,6 +216,18 @@ class Cell {
         */
 
         restore()
+    }
+
+    drift() {
+        this.dx = RND(40) - 20
+        this.dy = RND(20) - 10
+    }
+
+    free() {
+        this.parent = null
+        this.next = null
+        this.prev = null
+        this.drift()
     }
 
     kill() {

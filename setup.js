@@ -5,7 +5,6 @@ function setup() {
 
     lib.gen.camera()
 
-
     trap('source')
     trap('source')
     trap('source')
@@ -29,6 +28,7 @@ function setup() {
 
     // pin the camera to the hero's head
     lab.sea.follow(hero.head, true)
+    lab.sea.hero = hero
 
     /*
     hero.attach( lab.sea.bio.spawn(dna.Cell, {
