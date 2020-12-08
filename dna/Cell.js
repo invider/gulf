@@ -135,9 +135,21 @@ class Cell {
         save()
         translate(this.x, this.y)
 
+        const color = lib.util.teamColor(this.team) 
+
+        alpha(.04)
+        fill(color)
+        circle(0, 0, this.r * 1.2)
+
+        alpha(.08)
+        stroke(color)
+        lineWidth(8)
+        circle(0, 0, this.r)
+        alpha(1)
+
+        stroke(  )
         if (this.selected) lineWidth(3)
         else lineWidth(1)
-        stroke( lib.util.teamColor(this.team) )
         circle(0, 0, this.r)
         if (this.prev) {
             //line(0, 0, this.prev.x - this.x, this.prev.y - this.y)
@@ -145,7 +157,7 @@ class Cell {
             const py = this.prev.y - this.y
             const fi = atan2(py, px)
 
-            fill( lib.util.teamColor(this.team) )
+            fill( color )
             circle(
                 px/2,
                 py/2,
