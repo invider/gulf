@@ -1,6 +1,7 @@
 function setup() {
     //lab.background = hsl(.55, .2, .2)
     lab.background = hsl(.54, .4, .08)
+    ctx.lineCap = 'round'
 
     lib.gen.camera()
 

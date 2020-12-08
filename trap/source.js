@@ -6,5 +6,6 @@ function source() {
         r: 10,
         dx: RND(40) - 20,
         dy: RND(20) - 10,
+        lifespan: 90,
     })
 }

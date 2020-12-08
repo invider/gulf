@@ -112,6 +112,13 @@ class Cell {
             // just drift
             this.x += this.dx * dt
             this.y += this.dy * dt
+
+            if (this.lifespan > 0) {
+                this.lifespan -= dt
+                if (this.lifespan <= 0) {
+                    this.kill()
+                }
+            }
         }
     }
 
