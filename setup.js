@@ -1,5 +1,9 @@
 function setup() {
+    //lab.background = hsl(.55, .2, .2)
+    lab.background = hsl(.54, .4, .08)
+
     lib.gen.camera()
+
 
     trap('source')
     trap('source')

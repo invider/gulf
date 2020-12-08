@@ -116,16 +116,28 @@ class Cell {
     }
 
     drawLeg(fi) {
-        stroke( lib.util.teamColor(this.team) )
 
         const r1 = this.r
         const r2 = this.legLength
-        line(
-            cos(fi) * r1,
-            sin(fi) * r1,
-            cos(fi) * r2,
-            sin(fi) * r2,
-        )
+        const x1 = cos(fi) * r1
+        const y1 = sin(fi) * r1
+        const x2 = cos(fi) * r2
+        const y2 = sin(fi) * r2
+
+        stroke( lib.util.teamColor(this.team) )
+
+        alpha(.1)
+        lineWidth(12)
+        line(x1, y1, x2, y2)
+
+        alpha(.3)
+        lineWidth(4)
+        line(x1, y1, x2, y2)
+
+
+        alpha(1)
+        lineWidth(1)
+        line(x1, y1, x2, y2)
 
         fill( lib.util.teamColor(this.team) )
         circle( cos(fi) * r2, sin(fi) * r2, this.linkR)
@@ -138,16 +150,22 @@ class Cell {
         const color = lib.util.teamColor(this.team) 
 
         alpha(.04)
-        fill(color)
+        fill( color )
         circle(0, 0, this.r * 1.2)
 
+        stroke( color )
+
         alpha(.08)
-        stroke(color)
         lineWidth(8)
         circle(0, 0, this.r)
+
+        alpha(.2)
+        lineWidth(4)
+        circle(0, 0, this.r)
+
         alpha(1)
 
-        stroke(  )
+        stroke( color )
         if (this.selected) lineWidth(3)
         else lineWidth(1)
         circle(0, 0, this.r)
