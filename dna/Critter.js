@@ -4,9 +4,9 @@ const df = {
 
     minSpeed: 10,
     cruiseSpeed: 20,
-    maxSpeed: 60,
-    speedUp: 15,
-    speedBoost: 70,
+    maxSpeed: 100,
+    speedUp: 20,
+    speedBoost: 100,
     speedDown: 10,
     boostTime: 2,
 

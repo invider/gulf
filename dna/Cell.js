@@ -12,7 +12,14 @@ const df = {
     dy: 0,
 
     linkR: 1.5,
-    linkSpeed: 60,
+    linkSpeed: 0,
+    maxLinkSpeed: 150,
+    linkAcceleration: 200, 
+    linkDeceleration: 200,
+    linkRepulsion: 200,
+    tugIn: 4,    // in cell radius
+    tugOut: 2.5, // in cell radius
+    maxLinkLen: 1.5,
 
     legLength: 0,
     legsTension: 0,
@@ -105,13 +112,32 @@ class Cell {
             // tag along
             const prev = this.prev
             const d = dist(this.x, this.y, prev.x, prev.y)
-            if (d > 4*this.r) {
+            if (d > this.tugIn*this.r) {
+                this.linkSpeed = min(this.linkSpeed
+                    + this.linkAcceleration * dt,
+                    this.maxLinkSpeed)
                 this.evoTug(dt, prev, this.linkSpeed)
-            } else if (d < 2.5*this.r) {
-                this.evoTug(dt, prev, -this.linkSpeed)
+
+            } else if (d < this.tugOut*this.r) {
+                this.linkSpeed = max(this.linkSpeed
+                    - this.linkRepulsion * dt,
+                    -this.maxLinkSpeed)
+                this.evoTug(dt, prev, this.linkSpeed)
 
             } else {
-                this.evoDrift(dt, prev)
+                if (this.linkSpeed > 0) {
+                    this.linkSpeed = max(this.linkSpeed
+                        - this.linkDeceleration * dt,
+                        0)
+                    this.evoTug(dt, prev, this.linkSpeed)
+                } else if (this.linkSpeed < 0) {
+                    this.linkSpeed = min(this.linkSpeed
+                        + this.linkDeceleration * dt,
+                        0)
+                    this.evoTug(dt, prev, this.linkSpeed)
+                } else {
+                    this.evoDrift(dt, prev)
+                }
             }
         } else {
             // just drift
