@@ -61,6 +61,12 @@ class Critter {
         this.jawDir = -1
     }
 
+    turnAt(dir) {
+        this.target = null
+        this.targetDir = dir
+        this.boost = this.boostTime
+    }
+
     hit(segment, source, dt) {
         segment.hp -= this.jawForce * dt
         if (segment.hp <= 0) {
@@ -95,6 +101,35 @@ class Critter {
         this.head.y += sin(this.fi) * this.speed * dt
     }
 
+    turnAt(b, dt) {
+        const h = this.head
+        if (this.fi !== b) {
+            let left = true
+            let tune = true
+            if (this.fi < b) {
+                if (b - this.fi < PI) left = false
+                else tune = false
+            } else {
+                if (this.fi - b > PI) {
+                    left = false
+                    tune = false
+                }
+            }
+
+            if (left) {
+                this.fi -= this.turnSpeed * dt
+                if (tune && this.fi < b) this.fi = b
+                if (this.fi < 0) this.fi += TAU
+            } else {
+                this.fi += this.turnSpeed * dt
+                if (tune && this.fi > b) this.fi = b
+                if (this.fi > TAU) this.fi -= TAU
+            }
+            h.bearing = b
+            h.heading = this.fi
+        }
+    }
+
     turn(dt) {
         if (this.target) {
             const h = this.head
@@ -102,34 +137,7 @@ class Critter {
 
             if (this.debug) debugger
             const b = lib.math.normalizeAngle(bearing(h.x, h.y, t[0], t[1]))
-
-            if (this.fi !== b) {
-                let left = true
-                let tune = true
-                if (this.fi < b) {
-                    if (b - this.fi < PI) left = false
-                    else tune = false
-                } else {
-                    if (this.fi - b > PI) {
-                        left = false
-                        tune = false
-                    }
-                }
-
-                if (left) {
-                    this.fi -= this.turnSpeed * dt
-                    if (tune && this.fi < b) this.fi = b
-                    if (this.fi < 0) this.fi += TAU
-                } else {
-                    this.fi += this.turnSpeed * dt
-                    if (tune && this.fi > b) this.fi = b
-                    if (this.fi > TAU) this.fi -= TAU
-                }
-                h.bearing = b
-                h.heading = this.fi
-            }
-
-
+            this.turnAt(b, dt)
             /*
             const l = len(h.x - t[0],
                             h.y - t[1])
@@ -143,6 +151,8 @@ class Critter {
                 h.y -= svec[1]
             }
             */
+        } else if (this.targetDir) {
+            this.turnAt(b, dt)
         }
     }
 
