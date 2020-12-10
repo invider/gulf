@@ -101,7 +101,15 @@ class Critter {
         this.head.y += sin(this.fi) * this.speed * dt
     }
 
-    turnAt(b, dt) {
+    turnLeft(dt) {
+        this.fi -= this.turnSpeed * dt
+    }
+
+    turnRight(dt) {
+        this.fi += this.turnSpeed * dt
+    }
+
+    turnAtBearing(b, dt) {
         const h = this.head
         if (this.fi !== b) {
             let left = true
@@ -137,7 +145,7 @@ class Critter {
 
             if (this.debug) debugger
             const b = lib.math.normalizeAngle(bearing(h.x, h.y, t[0], t[1]))
-            this.turnAt(b, dt)
+            this.turnAtBearing(b, dt)
             /*
             const l = len(h.x - t[0],
                             h.y - t[1])
@@ -206,6 +214,22 @@ class Critter {
         stroke( lib.util.teamColor(this.team) )
         arc(x, y, r + 4, j1, w1)
         arc(x, y, r + 4, j2, w2)
+    }
+
+    activate(id) {
+        if (id >= 1 && id <=3) {
+            this.target = null
+        }
+        if (id === 2) this.jawDir = -1
+    }
+
+    act(id, dt) {
+        switch(id) {
+            case 1: this.turnLeft(dt);  break;
+            case 2: this.boost = this.boostTime; break;
+            case 3: this.turnRight(dt); break;
+            case 4: this.boost = 0; break;
+        }
     }
 
     forEach(fn) {

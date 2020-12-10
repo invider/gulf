@@ -29,6 +29,7 @@ function setup() {
     // pin the camera to the hero's head
     lab.sea.follow(hero.head, true)
     lab.sea.hero = hero
+    lab.control.bind(hero)
 
     /*
     hero.attach( lab.sea.bio.spawn(dna.Cell, {
