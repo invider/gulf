@@ -1,7 +1,9 @@
 const df = {
+    team: 0,
+    player: 0,
+
     speed: 0,
     turnSpeed: 1.5,
-
     minSpeed: 10,
     cruiseSpeed: 20,
     maxSpeed: 100,
@@ -26,6 +28,13 @@ class Critter {
         this.name = 'critter' + (++id)
         augment(this, df)
         augment(this, st)
+
+        // set default bot
+        if (!this.bot) {
+            this.bot = sys.clone(dna.bot.hunter)
+        }
+        this.bot.parent = this
+        this.bot.take()
     }
 
     attach(cell) {
@@ -72,7 +81,7 @@ class Critter {
         if (segment.hp <= 0) {
             this.cut(segment)
         }
-        log(this.name + '/' + segment.name  + ' is hit by ' + source.name + ' !' + floor(segment.hp))
+        //log(this.name + '/' + segment.name  + ' is hit by ' + source.name + ' !' + floor(segment.hp))
     }
 
     adjustSpeed(dt) {
@@ -191,9 +200,14 @@ class Critter {
         this.adjustSpeed(dt)
         this.move(dt)
         this.moveJaws(dt)
+        if (!this.player) {
+            this.bot.nextAction(dt)
+        }
     }
 
     draw() {
+
+        // highlight target
         if (this.target) {
             fill('#ff0000')
             circle(this.target[0], this.target[1], 2)
@@ -214,6 +228,14 @@ class Critter {
         stroke( lib.util.teamColor(this.team) )
         arc(x, y, r + 4, j1, w1)
         arc(x, y, r + 4, j2, w2)
+
+        /*
+        fill(.12, .5, .5)
+        baseMiddle()
+        alignCenter()
+        font('24px moon')
+        text(''+this.player, x, y)
+        */
     }
 
     activate(id) {

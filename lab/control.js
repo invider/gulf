@@ -3,7 +3,16 @@ let target
 const actions = []
 
 function bind(t) {
+    if (target) {
+        target.player = 0
+        target.bot.take()
+    }
+
     target = t
+    if (!t) return
+
+    target.player = 1
+    target.bot.release()
 }
 
 function activate(id) {

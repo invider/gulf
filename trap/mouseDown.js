@@ -5,7 +5,8 @@ function mouseDown(e) {
 
     if (e.buttons & 1) {
         if (!lab.sea.hero) return
-        lab.sea.hero.moveTo(lx, ly)
+        lab.control.setTarget(lx, ly)
+        //lab.sea.hero.moveTo(lx, ly)
 
     } else if (e.buttons & 2) {
         const ls = []
