@@ -7,18 +7,18 @@ const df = {
 
     x: 0,
     y: 0,
-    r: 10,
+    r: 10, // cell radius
+    l: 30, // link length
     dx: 0,
     dy: 0,
 
     linkR: 1.5,
-    linkSpeed: 0,
-    maxLinkSpeed: 150,
-    linkAcceleration: 200, 
-    linkDeceleration: 200,
-    linkRepulsion: 200,
-    tugIn: 4,    // in cell radius
-    tugOut: 2.5, // in cell radius
+    linkSpeed: 50,
+    linkSpeed2: 110,
+    tugIn:   1.2, // in link lengths
+    tugIn2:  1.5,
+    tugOut:  0.7,
+    tugOut2: 0.4,
     maxLinkLen: 1.5,
 
     legLength: 0,
@@ -112,32 +112,18 @@ class Cell {
             // tag along
             const prev = this.prev
             const d = dist(this.x, this.y, prev.x, prev.y)
-            if (d > this.tugIn*this.r) {
-                this.linkSpeed = min(this.linkSpeed
-                    + this.linkAcceleration * dt,
-                    this.maxLinkSpeed)
-                this.evoTug(dt, prev, this.linkSpeed)
 
-            } else if (d < this.tugOut*this.r) {
-                this.linkSpeed = max(this.linkSpeed
-                    - this.linkRepulsion * dt,
-                    -this.maxLinkSpeed)
+            if (d > this.tugIn2 * this.l) {
+                this.evoTug(dt, prev, this.linkSpeed2)
+            } else if (d > this.tugIn * this.l) {
                 this.evoTug(dt, prev, this.linkSpeed)
-
+            } else if (d < this.tugOut2 * this.l) {
+                this.evoTug(dt, prev, -this.linkSpeed2)
+            } else if (d < this.tugOut * this.l) {
+                this.evoTug(dt, prev, -this.linkSpeed)
+                
             } else {
-                if (this.linkSpeed > 0) {
-                    this.linkSpeed = max(this.linkSpeed
-                        - this.linkDeceleration * dt,
-                        0)
-                    this.evoTug(dt, prev, this.linkSpeed)
-                } else if (this.linkSpeed < 0) {
-                    this.linkSpeed = min(this.linkSpeed
-                        + this.linkDeceleration * dt,
-                        0)
-                    this.evoTug(dt, prev, this.linkSpeed)
-                } else {
-                    this.evoDrift(dt, prev)
-                }
+                this.evoDrift(dt, prev)
             }
         } else {
             // just drift

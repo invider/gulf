@@ -6,9 +6,9 @@ const df = {
     cruiseSpeed: 20,
     maxSpeed: 100,
     speedUp: 20,
-    speedBoost: 100,
-    speedDown: 10,
-    boostTime: 2,
+    speedBoost: 150,
+    speedDown: 30,
+    boostTime: .3,
 
     jawWidth: PI/4,
     jawOpen: PI/4,
