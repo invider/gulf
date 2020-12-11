@@ -118,6 +118,14 @@ class Critter {
         this.fi += this.turnSpeed * dt
     }
 
+    rush(dt) {
+        this.boost = this.boostTime
+    }
+
+    slowDown(dt) {
+        this.boost = 0
+    }
+
     turnAtBearing(b, dt) {
         const h = this.head
         if (this.fi !== b) {
@@ -201,7 +209,7 @@ class Critter {
         this.move(dt)
         this.moveJaws(dt)
         if (!this.player) {
-            this.bot.nextAction(dt)
+            this.bot.evo(dt)
         }
     }
 
@@ -248,9 +256,9 @@ class Critter {
     act(id, dt) {
         switch(id) {
             case 1: this.turnLeft(dt);  break;
-            case 2: this.boost = this.boostTime; break;
+            case 2: this.rush(dt); break;
             case 3: this.turnRight(dt); break;
-            case 4: this.boost = 0; break;
+            case 4: this.slowDown(dt); break;
         }
     }
 
