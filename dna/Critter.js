@@ -1,6 +1,12 @@
+
+const NOTHING = 0
+const FOLLOW_TARGET = 1
+const DISTANCIATE = 2
+
 const df = {
     team: 0,
     player: 0,
+    action: NOTHING,
 
     speed: 0,
     turnSpeed: 1.5,
@@ -9,8 +15,10 @@ const df = {
     maxSpeed: 100,
     speedUp: 20,
     speedBoost: 150,
-    speedDown: 30,
-    boostTime: .3,
+    speedDown: 20,
+    boostTime: .5,
+    targetPrecision: 25,
+    distanciateTime: 4,
 
     jawWidth: PI/4,
     jawOpen: PI/4,
@@ -65,7 +73,8 @@ class Critter {
     }
 
     moveTo(x, y) {
-        this.target = lib.v2a.create(x, y)
+        this.action = FOLLOW_TARGET
+        this.target = lib.v2.create(x, y)
         this.boost = this.boostTime
         this.jawDir = -1
     }
@@ -155,30 +164,13 @@ class Critter {
         }
     }
 
-    turn(dt) {
-        if (this.target) {
-            const h = this.head
-            const t = this.target
+    turnOnTarget(dt) {
+        const h = this.head
+        const t = this.target
 
-            if (this.debug) debugger
-            const b = lib.math.normalizeAngle(bearing(h.x, h.y, t[0], t[1]))
-            this.turnAtBearing(b, dt)
-            /*
-            const l = len(h.x - t[0],
-                            h.y - t[1])
-            if (l > 1) {
-                const fi = Math.atan2(h.y-t[1], h.x-t[0])
-                const dir = lib.v2a.unit(fi)
-                const svec = lib.v2a.scale(dir,
-                        this.speed * dt)
-                // move head
-                h.x -= svec[0]
-                h.y -= svec[1]
-            }
-            */
-        } else if (this.targetDir) {
-            this.turnAt(b, dt)
-        }
+        if (this.debug) debugger
+        const b = lib.math.normalizeAngle(bearing(h.x, h.y, t.x, t.y))
+        this.turnAtBearing(b, dt)
     }
 
     moveJaws(dt) {
@@ -204,8 +196,37 @@ class Critter {
     }
 
     evo(dt) {
-        this.turn(dt)
-        this.adjustSpeed(dt)
+
+        switch(this.action) {
+            case FOLLOW_TARGET:
+                if (this.target) {
+                    this.turnOnTarget(dt)
+                    this.adjustSpeed(dt)
+                    if (this.target.dead) this.action = NOTHING
+
+                    const d = lib.math.distanceSq(this.head.x, this.head.y,
+                        this.target.x, this.target.y)
+                    if (d < this.targetPrecision) {
+                        this.action = DISTANCIATE
+                        this.timer = this.distanciateTime
+                        if (this.onReached) {
+                            this.onReached()
+                        }
+                    }
+                }
+                break
+            case DISTANCIATE:
+                this.adjustSpeed(dt)
+                this.timer -= dt
+                if (this.timer < 0) {
+                    if (this.target) this.action = FOLLOW_TARGET
+                    else this.action = NOTHING
+                }
+                break
+            default:
+                this.slowDown(dt)
+                break
+        }
         this.move(dt)
         this.moveJaws(dt)
         if (!this.player) {
@@ -218,7 +239,7 @@ class Critter {
         // highlight target
         if (this.target) {
             fill('#ff0000')
-            circle(this.target[0], this.target[1], 2)
+            circle(this.target.x, this.target.y, 2)
         }
 
         const x = this.head.x
@@ -297,6 +318,10 @@ class Critter {
         }
 
         if (this.head === segment) this.kill()
+    }
+
+    onReached() {
+        log('reached target!')
     }
 
     kill() {

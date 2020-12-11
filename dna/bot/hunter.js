@@ -9,7 +9,7 @@ function nextAction() {
     if (this.state === ROAMING) {
         this.timer = .3 + rnd()
         this.control = RND(3) + 1
-        log(this.parent.name + ': #' + this.control)
+        //log(this.parent.name + ': #' + this.control)
     }
 }
 
