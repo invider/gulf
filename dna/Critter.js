@@ -74,6 +74,11 @@ class Critter {
             timespan: .7,
             color: lib.util.teamColor(this.team),
         })
+
+        const SPLIT = 6
+        if (this.length() >= 2*SPLIT) {
+            this.split(SPLIT)
+        }
     }
 
     eat(cell) {
@@ -382,7 +387,30 @@ class Critter {
         return len
     }
 
-    split(segment) {
+    split(i) {
+        const df = {
+            team: this.team,
+            bot: sys.clone(this.bot._dna),
+        }
+        const creature = lab.sea.tie.spawn(dna.Critter, df)
+
+        let cur = this.segment(i)
+        if (!cur) return
+
+        // cut the tail
+        this.tail = cur.prev
+        this.tail.next = null
+        cur.prev = null
+        creature.tail = cur
+
+        let last
+        while(cur) {
+            cur.parent = creature
+            last = cur
+            cur = cur.next
+        }
+        creature.head = last
+        creature.head.r = 15
     }
 
     cut(segment) {
