@@ -7,6 +7,14 @@ function mouseDown(e) {
         if (!lab.sea.hero) return
         lab.control.setTarget(lx, ly)
         //lab.sea.hero.moveTo(lx, ly)
+        lab.sea.fx.spawn(dna.fx.Blip, {
+            x: lx,
+            y: ly,
+            width: 3,
+            alpha: .3,
+            speed: 120,
+            timespan: .3,
+        })
 
     } else if (e.buttons & 2) {
         const ls = []

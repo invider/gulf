@@ -62,6 +62,16 @@ class Critter {
         if (this.length() % 3 === 0) {
             cell.legLength = 45
         }
+
+        lab.sea.fx.spawn(dna.fx.Blip, {
+            x: cell.x,
+            y: cell.y,
+            width: 3,
+            alpha: .3,
+            speed: 250,
+            timespan: .7,
+            color: lib.util.teamColor(this.team),
+        })
     }
 
     eat(cell) {
@@ -229,7 +239,6 @@ class Critter {
                     if (this.target) {
                         this.action = CIRCLE
                         this.timer = this.circleTime + RND(this.circleTime)
-                        this.boost = this.boostTime
                     } else {
                         this.action = NOTHING
                     }

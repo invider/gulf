@@ -37,6 +37,7 @@ class Cell {
         this.name = 'cell' + (++id)
         augment(this, df)
         augment(this, st)
+
     }
 
     hit(source, dt) {
