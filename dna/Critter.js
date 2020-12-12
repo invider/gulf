@@ -22,6 +22,8 @@ const df = {
     distanciateTime: 4,
     circleTime: 8,
 
+    scanRadius: 1000,
+
     jawWidth: PI/4,
     jawOpen: PI/4,
     jawRate: 1,
@@ -91,6 +93,12 @@ class Critter {
         this.jawDir = -1
     }
 
+    follow(target) {
+        this.action = FOLLOW_TARGET
+        this.target = target
+        this.boost = this.boostTime
+    }
+
     turnAt(dir) {
         this.target = null
         this.targetDir = dir
@@ -103,6 +111,33 @@ class Critter {
             this.cut(segment)
         }
         //log(this.name + '/' + segment.name  + ' is hit by ' + source.name + ' !' + floor(segment.hp))
+    }
+
+    scan() {
+        const bio = {
+            prey: [],
+            plankton: [],
+        }
+
+        const h = this.head
+        const ls = lab.sea.bio._ls
+        const R = this.scanRadius * this.scanRadius
+
+        for (let i = 0; i < ls.length; i++) {
+            const cell = ls[i]
+            const d = lib.math.distanceSq(h.x, h.y, cell.x, cell.y)
+
+            if (d < R) {
+                if (cell.parent) {
+                    if (cell.parent.team !== this.team) {
+                        bio.prey.push(cell)
+                    }
+                } else {
+                    bio.plankton.push(cell)
+                }
+            }
+        }
+        return bio
     }
 
     adjustSpeed(dt) {
@@ -274,7 +309,7 @@ class Critter {
 
         // highlight target
         if (this.target) {
-            fill('#ff0000')
+            fill( lib.util.teamColor(this.team) )
             circle(this.target.x, this.target.y, 2)
         }
 
@@ -327,6 +362,16 @@ class Critter {
         }
     }
 
+    segment(i) {
+        let j = 0
+        let cur = this.head
+        while(cur && j < i) {
+            j++
+            cur = cur.next
+        }
+        return cur
+    }
+
     length() {
         let len = 0
         let cur = this.head
@@ -335,6 +380,9 @@ class Critter {
             cur = cur.next
         }
         return len
+    }
+
+    split(segment) {
     }
 
     cut(segment) {

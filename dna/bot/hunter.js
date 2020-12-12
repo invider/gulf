@@ -1,7 +1,8 @@
 const ROAMING = 0
+const PREY = 1
 
 function take() {
-    this.state = ROAMING
+    this.state = PREY
     this.timer = 0
 }
 
@@ -10,6 +11,24 @@ function nextAction() {
         this.timer = .3 + rnd()
         this.control = RND(3) + 1
         //log(this.parent.name + ': #' + this.control)
+    } else if (this.state === PREY) {
+        const bio = this.parent.scan()
+        let target
+
+        if (lib.math.rnds() < 0) {
+            if (bio.prey.length > 0) {
+                target = lib.math.rnde(bio.prey)
+            }
+        } else {
+            if (bio.plankton.length > 0) {
+                target = lib.math.rnde(bio.plankton)
+            }
+        }
+
+        if (target) {
+            this.parent.follow(target)
+            this.timer = 15
+        }
     }
 }
 
