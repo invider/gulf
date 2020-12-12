@@ -2,6 +2,7 @@
 const NOTHING = 0
 const FOLLOW_TARGET = 1
 const DISTANCIATE = 2
+const CIRCLE = 3
 
 const df = {
     team: 0,
@@ -10,15 +11,16 @@ const df = {
 
     speed: 0,
     turnSpeed: 1.5,
-    minSpeed: 10,
-    cruiseSpeed: 20,
+    minSpeed: 20,
+    cruiseSpeed: 40,
     maxSpeed: 100,
     speedUp: 20,
-    speedBoost: 150,
+    speedBoost: 200,
     speedDown: 20,
-    boostTime: .5,
+    boostTime: .3,
     targetPrecision: 25,
     distanciateTime: 4,
+    circleTime: 8,
 
     jawWidth: PI/4,
     jawOpen: PI/4,
@@ -168,8 +170,15 @@ class Critter {
         const h = this.head
         const t = this.target
 
-        if (this.debug) debugger
         const b = lib.math.normalizeAngle(bearing(h.x, h.y, t.x, t.y))
+        this.turnAtBearing(b, dt)
+    }
+
+    circleTarget(dt) {
+        const h = this.head
+        const t = this.target
+
+        const b = lib.math.normalizeAngle(bearing(h.x, h.y, t.x, t.y) - HALF_PI)
         this.turnAtBearing(b, dt)
     }
 
@@ -196,12 +205,10 @@ class Critter {
     }
 
     evo(dt) {
-
         switch(this.action) {
             case FOLLOW_TARGET:
                 if (this.target) {
                     this.turnOnTarget(dt)
-                    this.adjustSpeed(dt)
                     if (this.target.dead) this.action = NOTHING
 
                     const d = lib.math.distanceSq(this.head.x, this.head.y,
@@ -215,18 +222,38 @@ class Critter {
                     }
                 }
                 break
+
             case DISTANCIATE:
-                this.adjustSpeed(dt)
                 this.timer -= dt
                 if (this.timer < 0) {
-                    if (this.target) this.action = FOLLOW_TARGET
-                    else this.action = NOTHING
+                    if (this.target) {
+                        this.action = CIRCLE
+                        this.timer = this.circleTime + RND(this.circleTime)
+                        this.boost = this.boostTime
+                    } else {
+                        this.action = NOTHING
+                    }
                 }
                 break
+
+            case CIRCLE:
+                this.circleTarget(dt)
+                this.timer -= dt
+                if (this.timer < 0) {
+                    if (this.target) {
+                        this.action = FOLLOW_TARGET
+                        this.boost = this.boostTime
+                    } else {
+                        this.action = NOTHING
+                    }
+                }
+                break
+
             default:
                 this.slowDown(dt)
                 break
         }
+        this.adjustSpeed(dt)
         this.move(dt)
         this.moveJaws(dt)
         if (!this.player) {
@@ -320,9 +347,7 @@ class Critter {
         if (this.head === segment) this.kill()
     }
 
-    onReached() {
-        log('reached target!')
-    }
+    onReached() {}
 
     kill() {
         this.dead = true
