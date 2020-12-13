@@ -1,7 +1,7 @@
 const ROAMING = 0
 const PREY = 1
 
-function take() {
+function takeControl() {
     this.state = PREY
     this.timer = 0
 }
@@ -44,5 +44,5 @@ function evo(dt) {
     }
 }
 
-function release() {
+function releaseControl() {
 }

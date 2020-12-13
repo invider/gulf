@@ -4,9 +4,14 @@ function mouseDown(e) {
     const ly = lab.sea.ly(mouse.y)
 
     if (e.buttons & 1) {
-        if (!lab.sea.hero) return
-        lab.control.setTarget(lx, ly)
-        //lab.sea.hero.moveTo(lx, ly)
+        if (!lab.sea.hero) {
+            lab.sea.moveTo(lx, ly)
+        } else {
+            lab.control.setTarget(lx, ly)
+            //lab.sea.hero.moveTo(lx, ly)
+        }
+
+        // mark the click with a blip
         lab.sea.fx.spawn(dna.fx.Blip, {
             x: lx,
             y: ly,

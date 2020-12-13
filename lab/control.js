@@ -2,17 +2,21 @@
 let target
 const actions = []
 
-function bind(t) {
+function unbind() {
     if (target) {
         target.player = 0
-        target.bot.take()
+        target.bot.takeControl()
     }
+}
+
+function bind(t) {
+    this.unbind()
 
     target = t
     if (!t) return
 
     target.player = 1
-    target.bot.release()
+    target.bot.releaseControl()
 }
 
 function activate(id) {
