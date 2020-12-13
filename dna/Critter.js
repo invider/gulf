@@ -46,7 +46,7 @@ class Critter {
             this.bot = sys.clone(dna.bot.hunter)
         }
         this.bot.parent = this
-        this.bot.take()
+        this.bot.takeControl()
     }
 
     attach(cell) {
@@ -401,7 +401,8 @@ class Critter {
         this.tail = cur.prev
         this.tail.next = null
         cur.prev = null
-        creature.tail = cur
+        creature.head = cur
+        creature.head.r = 15
 
         let last
         while(cur) {
@@ -409,8 +410,7 @@ class Critter {
             last = cur
             cur = cur.next
         }
-        creature.head = last
-        creature.head.r = 15
+        creature.tail = last
     }
 
     cut(segment) {
