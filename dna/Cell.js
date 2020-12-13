@@ -179,10 +179,10 @@ class Cell {
         const color = lib.util.teamColor(this.team) 
 
         alpha(.04)
-        fill( color )
+        fill(color)
         circle(0, 0, this.r * 1.2)
 
-        stroke( color )
+        stroke(color)
 
         alpha(.08)
         lineWidth(8)
@@ -194,7 +194,15 @@ class Cell {
 
         alpha(1)
 
-        stroke( color )
+        if (this.parent && this.parent.head === this && this.parent.player) {
+            fill(color)
+            circle(0, 0, this.r * 0.25)
+            stroke(color)
+            lineWidth(2)
+            circle(0, 0, this.r * 0.5)
+        }
+
+        stroke(color)
         if (this.selected) lineWidth(3)
         else lineWidth(1)
         circle(0, 0, this.r)

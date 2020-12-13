@@ -403,6 +403,7 @@ class Critter {
         cur.prev = null
         creature.head = cur
         creature.head.r = 15
+        creature.head.legLength = 0
 
         let last
         while(cur) {
