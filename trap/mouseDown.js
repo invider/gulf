@@ -31,9 +31,7 @@ function mouseDown(e) {
 
             if (target.parent && target.parent.head === target) {
                 // pin the camera to the head
-                lab.sea.follow(target.parent.head, true)
-                lab.sea.hero = target.parent
-                lab.control.bind(lab.sea.hero)
+                lab.sea.pin(target.parent)
             }
 
             if (target.parent) {
