@@ -6,14 +6,14 @@ function critter(st) {
     const creature = lab.sea.tie.spawn(dna.Critter, augment(df, st))
 
     creature.attach( lab.sea.bio.spawn(dna.Cell, {
-        x: 0,
-        y: 0,
+        x: (st && st.x) || 0,
+        y: (st && st.y) || 0,
         r: 15,
     }))
 
     creature.attach( lab.sea.bio.spawn(dna.Cell, {
-        x: 0,
-        y: 0,
+        x: (st && st.x) || 0,
+        y: (st && st.y) || 0,
         r: 10,
     }))
 }

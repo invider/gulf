@@ -41,6 +41,7 @@ class Cell {
     }
 
     hit(source, dt) {
+        if (!source) return
         if (!this.parent) {
             this.kill()
             source.parent.eat(this)
@@ -50,7 +51,10 @@ class Cell {
     }
 
     touch(critter, dt) {
+        if (!critter) return
         const head = critter.head
+        if (!head) return
+
         const jx = head.x + cos(critter.fi) * head.r
         const jy = head.y + sin(critter.fi) * head.r
 
