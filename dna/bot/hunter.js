@@ -1,8 +1,8 @@
 const ROAMING = 0
-const PREY = 1
+const PREYING = 1
 
 function takeControl() {
-    this.state = PREY
+    this.state = PREYING
     this.timer = 0
 }
 
@@ -11,7 +11,7 @@ function nextAction() {
         this.timer = .3 + rnd()
         this.control = RND(3) + 1
         //log(this.parent.name + ': #' + this.control)
-    } else if (this.state === PREY) {
+    } else if (this.state === PREYING) {
         const bio = this.parent.scan()
         let target
 
@@ -45,4 +45,11 @@ function evo(dt) {
 }
 
 function releaseControl() {
+}
+
+function getGoal() {
+    switch(this.state) {
+        case ROAMING: return 'roaming';
+        case PREYING: return 'preying';
+    }
 }

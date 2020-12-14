@@ -1,4 +1,3 @@
-
 const NOTHING = 0
 const FOLLOW_TARGET = 1
 const DISTANCIATE = 2
@@ -341,6 +340,14 @@ class Critter {
         font('24px moon')
         text(''+this.player, x, y)
         */
+
+        if (env.config.showGoal) {
+            fill( lib.util.teamColor(this.team) )
+            baseBottom()
+            alignCenter()
+            font('24px moon')
+            text(this.getGoal(), x, y - 20)
+        }
     }
 
     activate(id) {
@@ -357,6 +364,34 @@ class Critter {
             case 3: this.turnRight(dt); break;
             case 4: this.slowDown(dt); break;
         }
+    }
+
+    getTargetLabel() {
+        let target = 'target'
+        if (this.target) {
+            if (this.target.parent) target = this.target.parent.name
+            else if (this.target.name) target = this.target.name
+            else target = '' + round(this.target.x) + 'x' + round(this.target.y)
+        }
+        return target
+    }
+
+    getGoal() {
+        let action = ''
+        switch(this.action) {
+            case NOTHING:       action = 'nothing';     break;
+            case FOLLOW_TARGET:
+                action = 'follow ' + this.getTargetLabel()
+                break
+            case DISTANCIATE:
+                action = 'distanciate from ' + this.getTargetLabel()
+                break
+            case CIRCLE:
+                action = 'circle ' + this.getTargetLabel()
+                break
+        }
+
+        return action
     }
 
     forEach(fn) {

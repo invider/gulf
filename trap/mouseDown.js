@@ -7,8 +7,12 @@ function mouseDown(e) {
         if (!lab.sea.hero) {
             lab.sea.moveTo(lx, ly)
         } else {
-            lab.control.setTarget(lx, ly)
-            //lab.sea.hero.moveTo(lx, ly)
+            if (lab.sea.hero.dead) {
+                lab.sea.release()
+                lab.sea.moveTo(lx, ly)
+            } else {
+                lab.control.setTarget(lx, ly)
+            }
         }
 
         // mark the click with a blip
