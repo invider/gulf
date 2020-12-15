@@ -250,6 +250,7 @@ class Critter {
     lick(target, dt) {
         if (this.jawDir > 0 || this.jawRate > .25) return
         if (target === this.head || target.parent === this) return
+        if (!env.opt.friendlyAttack && target.team === this.team) return
         target.touch(this, dt)
     }
 

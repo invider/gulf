@@ -1,0 +1,3 @@
+const opt = {
+    friendlyAttack: false,
+}
