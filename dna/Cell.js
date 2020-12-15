@@ -44,7 +44,7 @@ class Cell {
         if (!source) return
         if (!this.parent) {
             this.kill()
-            source.parent.eat(this)
+            source.eat(this)
         } else {
             this.parent.hit(this, source, dt)
         }
@@ -61,7 +61,7 @@ class Cell {
         const d = dist(this.x, this.y, jx, jy)
         const r = this.r + head.r * .5
         if (d < r) {
-            this.hit(head, dt)
+            this.hit(critter, dt)
         }
     }
 
@@ -178,6 +178,7 @@ class Cell {
 
         const color = lib.util.teamColor(this.team) 
 
+        // outer rim
         alpha(.04)
         fill(color)
         circle(0, 0, this.r * 1.2)
@@ -202,10 +203,18 @@ class Cell {
             circle(0, 0, this.r * 0.5)
         }
 
+        // main rim
         stroke(color)
-        if (this.selected) lineWidth(3)
+        if (this.selected) lineWidth(2)
         else lineWidth(1)
+        alpha( limit(this.hp/10, 0, 1) )
         circle(0, 0, this.r)
+
+        alpha(1)
+        if (this.hp >= 25) circle(0, 0, this.r * .7)
+        if (this.hp >= 20) circle(0, 0, this.r * .4)
+        if (this.hp >= 15) circle(0, 0, this.r * .2)
+
         if (this.prev) {
             //line(0, 0, this.prev.x - this.x, this.prev.y - this.y)
             const px = this.prev.x - this.x

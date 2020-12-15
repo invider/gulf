@@ -15,5 +15,6 @@ function critter(st) {
         x: (st && st.x) || 0,
         y: (st && st.y) || 0,
         r: 10,
+        hp: 25,
     }))
 }

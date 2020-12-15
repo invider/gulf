@@ -29,7 +29,7 @@ const df = {
     jawSpeed: 2,
     jawDir: -1,
 
-    jawForce: 100,
+    jawForce: 50,
 }
 
 let id = 0
@@ -86,6 +86,7 @@ class Critter {
             x: this.tail.x,
             y: this.tail.y,
             r: 8,
+            hp: 10,
         })
         this.attach(next)
     }

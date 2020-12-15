@@ -24,6 +24,7 @@ function setup() {
         x: 75,
         y: 75,
         r: 10,
+        hp: 15,
     }))
 
     // pin the camera to the hero's head
