@@ -37,7 +37,16 @@ class Cell {
         this.name = 'cell' + (++id)
         augment(this, df)
         augment(this, st)
+        if (!this.capacity) this.capacity = this.hp
+    }
 
+    heal(hp) {
+        if (!hp || hp < 0) return 0
+        if (this.hp >= this.capacity) return hp
+        const charge = min(hp, this.capacity - this.hp)
+        this.hp = min(this.hp + charge, this.capacity)
+        log(this.parent.name + ' +' + charge)
+        return floor(hp - charge)
     }
 
     hit(source, dt) {

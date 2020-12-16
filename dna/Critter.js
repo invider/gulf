@@ -82,13 +82,36 @@ class Critter {
 
     eat(cell) {
         // TODO consume the energy, heal and grow
+
+        const hp = this.heal(cell.hp)
+        this.grow(hp)
+    }
+
+    heal(hp) {
+        log(this.name + ' healing +' + hp)
+        let cur = this.head
+        while(cur && hp > 0) {
+            hp = cur.heal(hp)
+            cur = cur.next
+        }
+        log(this.name + ' =' + hp + ' left')
+        return hp
+    }
+
+    grow(hp) {
+        hp = min(floor(hp / 5) * 5, 30)
+        if (hp < 10) return
+
         const next = lab.sea.bio.spawn(dna.Cell, {
             x: this.tail.x,
             y: this.tail.y,
             r: 8,
-            hp: 10,
+            hp: hp,
         })
         this.attach(next)
+    }
+
+    upgrade() {
     }
 
     moveTo(x, y) {
