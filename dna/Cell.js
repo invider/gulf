@@ -302,10 +302,15 @@ class Cell {
         this.parent = null
         this.next = null
         this.prev = null
-        this.drift()
+        if (this.hp > 0) this.drift()
+        else this.kill()
     }
 
     kill() {
+        this.parent = null
+        this.next = null
+        this.prev = null
         this.dead = true
+        kill(this)
     }
 }

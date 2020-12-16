@@ -443,6 +443,18 @@ class Critter {
         return cur
     }
 
+    health(i) {
+        i = i || 1
+        let hp = 0
+        let cur = this.head
+        while(cur && i > 0) {
+            hp += cur.hp
+            cur = cur.next
+            i--
+        }
+        return hp
+    }
+
     length() {
         let len = 0
         let cur = this.head
@@ -482,6 +494,12 @@ class Critter {
 
     cut(segment) {
         if (!segment || segment.parent !== this) return
+        if (segment.next && segment.next.hp > 0) return
+
+        if (segment === this.head) {
+            if (this.health(3) <= 0) this.kill()
+            else return
+        }
 
         if (segment.prev) {
             const tail = segment.prev
@@ -495,8 +513,6 @@ class Critter {
             cur.free()
             cur = next
         }
-
-        if (this.head === segment) this.kill()
     }
 
     onReached() {}

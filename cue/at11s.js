@@ -1,3 +1,5 @@
 module.exports = function() {
-    trap('critter')
+    trap('critter', {
+        team: 1,
+    })
 }
