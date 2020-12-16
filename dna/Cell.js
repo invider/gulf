@@ -211,9 +211,23 @@ class Cell {
         circle(0, 0, this.r)
 
         alpha(1)
-        if (this.hp >= 25) circle(0, 0, this.r * .7)
-        if (this.hp >= 20) circle(0, 0, this.r * .4)
-        if (this.hp >= 15) circle(0, 0, this.r * .2)
+        if (this.hp >= 25) {
+            fill(color)
+            circle(0, 0, this.r * .4)
+            stroke(color)
+            circle(0, 0, this.r * .7)
+        } else if (this.hp >= 20) {
+            fill(color)
+            circle(0, 0, this.r * .4)
+        } else if (this.hp >= 15) {
+            fill(color)
+            circle(0, 0, this.r * .2)
+            stroke(color)
+            circle(0, 0, this.r * .4)
+        } else if (this.hp > 10) {
+            fill(color)
+            circle(0, 0, this.r * .2)
+        }
 
         if (this.prev) {
             //line(0, 0, this.prev.x - this.x, this.prev.y - this.y)
