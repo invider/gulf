@@ -5,38 +5,22 @@ function setup() {
 
     lib.gen.camera()
 
-    trap('source')
-    trap('source')
-    trap('source')
-
-    const hero = lab.sea.tie.spawn(dna.Critter, {
-        team: 1,
+    trap('critter', {
+        team: 2,
         name: 'hero',
+        x: 120,
+        y: 120,
     })
 
-    hero.attach( lab.sea.bio.spawn(dna.Cell, {
-        x: 40,
-        y: 40,
-        r: 15,
-    }))
-
-    hero.attach( lab.sea.bio.spawn(dna.Cell, {
-        x: 75,
-        y: 75,
-        r: 10,
-        hp: 15,
-    }))
-
     // pin the camera to the hero's head
+    const hero = lab.sea.tie.hero
     lab.sea.follow(hero.head, true)
     lab.sea.hero = hero
     lab.control.bind(hero)
 
-    /*
-    hero.attach( lab.sea.bio.spawn(dna.Cell, {
-        x: 90,
-        y: 90,
-        r: 10,
-    }))
-    */
+    // spawn some food
+    trap('source')
+    trap('source')
+    trap('source')
+
 }

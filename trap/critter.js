@@ -8,13 +8,17 @@ function critter(st) {
     creature.attach( lab.sea.bio.spawn(dna.Cell, {
         x: (st && st.x) || 0,
         y: (st && st.y) || 0,
-        r: 15,
+        r: 17,
     }))
 
     creature.attach( lab.sea.bio.spawn(dna.Cell, {
         x: (st && st.x) || 0,
         y: (st && st.y) || 0,
-        r: 10,
-        hp: 25,
+        r:  8,
+        hp: 10,
     }))
+
+    for (let i = 0; i < 3; i++) {
+        creature.tail.promote()
+    }
 }

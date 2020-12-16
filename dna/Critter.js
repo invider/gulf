@@ -81,10 +81,8 @@ class Critter {
     }
 
     eat(cell) {
-        // TODO consume the energy, heal and grow
-
         const hp = this.heal(cell.hp)
-        this.grow(hp)
+        this.upgrade(hp)
     }
 
     heal(hp) {
@@ -98,20 +96,27 @@ class Critter {
         return hp
     }
 
-    grow(hp) {
+    upgrade(hp) {
         hp = min(floor(hp / 5) * 5, 30)
+        if (this.tail.targetLevel > this.tail.level) {
+            this.tail.promote(hp)
+        } else {
+            this.grow(hp)
+        }
+    }
+
+    grow(hp) {
         if (hp < 10) return
 
+        const targetLevel = RND(1, 5)
         const next = lab.sea.bio.spawn(dna.Cell, {
             x: this.tail.x,
             y: this.tail.y,
-            r: 8,
-            hp: hp,
+            r:  10,
+            hp: 10,
+            targetLevel: targetLevel,
         })
         this.attach(next)
-    }
-
-    upgrade() {
     }
 
     moveTo(x, y) {
@@ -274,7 +279,8 @@ class Critter {
     lick(target, dt) {
         if (this.jawDir > 0 || this.jawRate > .25) return
         if (target === this.head || target.parent === this) return
-        if (!env.opt.friendlyAttack && target.team === this.team) return
+        if (!env.opt.friendlyAttack && target.parent
+                && target.team === this.team) return
         target.touch(this, dt)
     }
 

@@ -1,9 +1,14 @@
+const PROMOTION = 5
+const MAX_LEVEL = 5
+
 const df = {
     team: 0,
     next: null,
     prev: null,
     parent: null,
+    level: 1,
     hp: 10,
+    capacity: 10,
 
     x: 0,
     y: 0,
@@ -45,8 +50,21 @@ class Cell {
         if (this.hp >= this.capacity) return hp
         const charge = min(hp, this.capacity - this.hp)
         this.hp = min(this.hp + charge, this.capacity)
-        log(this.parent.name + ' +' + charge)
         return floor(hp - charge)
+    }
+
+    promote(hp) {
+        if (hp < PROMOTION) return
+        if (this.hp < this.capacity) return
+        if (this.level >= MAX_LEVEL || this.level >= this.targetLevel) return
+
+        this.level ++
+        this.capacity += PROMOTION
+        this.hp += PROMOTION
+        this.r += 1
+        hp -= PROMOTION
+
+        if (hp >= PROMOTION) this.promote(hp)
     }
 
     hit(source, dt) {
