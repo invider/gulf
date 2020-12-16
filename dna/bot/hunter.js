@@ -1,5 +1,6 @@
 const ROAMING = 0
 const PREYING = 1
+const BASE = 2
 
 function takeControl() {
     this.state = PREYING
@@ -28,6 +29,17 @@ function nextAction() {
         if (target) {
             this.parent.follow(target)
             this.timer = 15
+        } else {
+            this.state = BASE
+        }
+    }  else if (this.state === BASE) {
+        const target = lib.v2.create(0, 0)
+        if (this.parent.head.dist(target) > 1000) {
+            this.parent.follow(target)
+            this.timer = 15
+        } else {
+            this.state = PREYING
+            this.timer = 0
         }
     }
 }
@@ -51,5 +63,6 @@ function getGoal() {
     switch(this.state) {
         case ROAMING: return 'roaming';
         case PREYING: return 'preying';
+        case BASE:    return 'basing';
     }
 }

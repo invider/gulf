@@ -306,6 +306,11 @@ class Cell {
         else this.kill()
     }
 
+    dist(v2) {
+        if (!v2) return 999999999
+        return dist(this.x, this.y, v2.x, v2.y)
+    }
+
     kill() {
         this.parent = null
         this.next = null

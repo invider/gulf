@@ -86,13 +86,11 @@ class Critter {
     }
 
     heal(hp) {
-        log(this.name + ' healing +' + hp)
         let cur = this.head
         while(cur && hp > 0) {
             hp = cur.heal(hp)
             cur = cur.next
         }
-        log(this.name + ' =' + hp + ' left')
         return hp
     }
 
@@ -518,7 +516,8 @@ class Critter {
     onReached() {}
 
     kill() {
-        this.dead = true
         log(this.name + ' is killed!')
+        this.dead = true
+        kill(this)
     }
 }
