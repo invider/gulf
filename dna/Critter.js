@@ -518,6 +518,10 @@ class Critter {
     kill() {
         log(this.name + ' is killed!')
         this.dead = true
-        kill(this)
+
+        const self = this
+        defer(() => { 
+            self.__.detach(self)
+        })
     }
 }

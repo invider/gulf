@@ -316,6 +316,10 @@ class Cell {
         this.next = null
         this.prev = null
         this.dead = true
-        kill(this)
+
+        const self = this
+        defer(() => { 
+            self.__.detach(self)
+        })
     }
 }
