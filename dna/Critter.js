@@ -53,6 +53,7 @@ class Critter {
         cell.team = this.team
         if (!this.head) {
             this.head = cell
+            this.head.installPod(new dna.pod.Jaw())
             this.tail = cell
         } else {
             cell.prev = this.tail
@@ -346,6 +347,7 @@ class Critter {
             circle(this.target.x, this.target.y, 2)
         }
 
+        /*
         const x = this.head.x
         const y = this.head.y
         const r = this.head.r
@@ -361,6 +363,7 @@ class Critter {
         stroke( lib.util.teamColor(this.team) )
         arc(x, y, r + 4, j1, w1)
         arc(x, y, r + 4, j2, w2)
+        */
 
         /*
         fill(.12, .5, .5)

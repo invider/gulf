@@ -3,9 +3,10 @@ const MAX_LEVEL = 5
 
 const df = {
     team: 0,
-    next: null,
-    prev: null,
+    next:   null,
+    prev:   null,
     parent: null,
+    pods:   null,
     level: 1,
     hp: 10,
     capacity: 10,
@@ -43,6 +44,21 @@ class Cell {
         augment(this, df)
         augment(this, st)
         if (!this.capacity) this.capacity = this.hp
+    }
+
+    installPod(pod) {
+        pod.__ = this
+        if (!this.pods) this.pods = []
+        this.pods.push(pod)
+        if (pod.onInstall) pod.onInstall()
+    }
+
+    uninstallPod(pod) {
+        if (!pod) return
+        const i = this.pods.indexOf(pod)
+        if (i < 0) return
+        if (pod.onUninstall) pod.onUninstall()
+        this.pods.splice(i, 1)
     }
 
     heal(hp) {
@@ -169,6 +185,12 @@ class Cell {
                 }
             }
         }
+
+        if (this.pods) {
+            for (let i = 0; i < this.pods.length; i++) {
+                this.pods[i].evo(dt)
+            }
+        }
     }
 
     drawLeg(fi) {
@@ -205,6 +227,7 @@ class Cell {
 
         const color = lib.util.teamColor(this.team) 
 
+
         // outer rim
         alpha(.04)
         fill(color)
@@ -222,6 +245,7 @@ class Cell {
 
         alpha(1)
 
+        /*
         if (this.parent && this.parent.head === this && this.parent.player) {
             fill(color)
             circle(0, 0, this.r * 0.25)
@@ -229,6 +253,7 @@ class Cell {
             lineWidth(2)
             circle(0, 0, this.r * 0.5)
         }
+        */
 
         // main rim
         stroke(color)
@@ -257,6 +282,7 @@ class Cell {
         }
 
         if (this.prev) {
+            // render the link
             //line(0, 0, this.prev.x - this.x, this.prev.y - this.y)
             const px = this.prev.x - this.x
             const py = this.prev.y - this.y
@@ -272,6 +298,12 @@ class Cell {
             if (this.legLength > 0) {
                 this.drawLeg(fi + (1.25 - .1 * this.legsTension)*PI)
                 this.drawLeg(fi - (1.25 - .1 * this.legsTension)*PI)
+            }
+        }
+
+        if (this.pods) {
+            for (let i = 0; i < this.pods.length; i++) {
+                this.pods[i].draw()
             }
         }
 
@@ -302,8 +334,8 @@ class Cell {
         this.parent = null
         this.next = null
         this.prev = null
-        if (this.hp > 0) this.drift()
-        else this.kill()
+        if (this.hp < 10) this.hp = 10
+        this.drift()
     }
 
     dist(v2) {
