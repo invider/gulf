@@ -18,7 +18,7 @@ function critter(st) {
         hp: 10,
     }))
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
         creature.head.promote()
     }
     for (let i = 0; i < 3; i++) {

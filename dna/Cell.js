@@ -226,20 +226,20 @@ class Cell {
         translate(this.x, this.y)
 
         const color = lib.util.teamColor(this.team) 
-
+        const glow = (this.parent && this.parent.player)? 2 : 1
 
         // outer rim
-        alpha(.04)
+        alpha(.04 * glow)
         fill(color)
         circle(0, 0, this.r * 1.2)
 
         stroke(color)
 
-        alpha(.08)
+        alpha(.08 * glow)
         lineWidth(8)
         circle(0, 0, this.r)
 
-        alpha(.2)
+        alpha(.2 * glow)
         lineWidth(4)
         circle(0, 0, this.r)
 
@@ -341,6 +341,17 @@ class Cell {
     dist(v2) {
         if (!v2) return 999999999
         return dist(this.x, this.y, v2.x, v2.y)
+    }
+
+    select() {
+        if (env.selected) env.selected.unfocus()
+        this.selected = true
+        env.selected = this
+    }
+
+    unfocus() {
+        this.selected = false
+        env.selected = null
     }
 
     kill() {

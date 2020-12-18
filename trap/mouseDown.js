@@ -32,11 +32,7 @@ function mouseDown(e) {
         if (ls.length > 0) {
             const target = ls[0]
 
-            if (env.selected) {
-                env.selected.selected = false
-            }
-            target.selected = true
-            env.selected = target
+            target.select()
 
             if (target.parent && target.parent.head === target) {
                 // pin the camera to the head

@@ -14,9 +14,12 @@ function setup() {
 
     // pin the camera to the hero's head
     const hero = lab.sea.tie.hero
+    lab.sea.pin(hero)
+    /*
     lab.sea.follow(hero.head, true)
     lab.sea.hero = hero
     lab.control.bind(hero)
+    */
 
     // spawn some food
     trap('source')
