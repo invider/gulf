@@ -340,30 +340,11 @@ class Critter {
     }
 
     draw() {
-
         // highlight target
         if (this.target) {
             fill( lib.util.teamColor(this.team) )
             circle(this.target.x, this.target.y, 2)
         }
-
-        /*
-        const x = this.head.x
-        const y = this.head.y
-        const r = this.head.r
-
-        const width = this.jawWidth
-        const opening = this.jawOpen/2 * this.jawRate
-        const j1 = this.fi - width - opening
-        const w1 = j1 + width 
-        const j2 = this.fi + opening
-        const w2 = j2 + width
-
-        lineWidth(2)
-        stroke( lib.util.teamColor(this.team) )
-        arc(x, y, r + 4, j1, w1)
-        arc(x, y, r + 4, j2, w2)
-        */
 
         /*
         fill(.12, .5, .5)

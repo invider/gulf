@@ -226,7 +226,7 @@ class Cell {
         translate(this.x, this.y)
 
         const color = lib.util.teamColor(this.team) 
-        const glow = (this.parent && this.parent.player)? 2 : 1
+        const glow = (this.parent && this.parent.player)? 1.5 : 1
 
         // outer rim
         alpha(.04 * glow)
