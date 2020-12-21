@@ -21,6 +21,19 @@ function setup() {
     lab.control.bind(hero)
     */
 
+    lab.sea.bio.spawn(dna.Source, {
+        team: 1,
+        x: -400,
+        y: 0,
+        timer: 1.5,
+    })
+    lab.sea.bio.spawn(dna.Source, {
+        team: 2,
+        x: 400,
+        y: 0,
+        timer: 0.3,
+    })
+
     // spawn some food
     trap('source')
     trap('source')
