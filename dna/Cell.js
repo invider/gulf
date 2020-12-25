@@ -69,28 +69,29 @@ class Cell {
         if (hp >= PROMOTION) this.promote(hp)
     }
 
-    hit(source, dt) {
-        if (!source) return
+    hit(attacker, dt) {
+        if (!attacker) return
         if (!this.parent) {
             this.kill()
-            source.eat(this)
+            attacker.eat(this)
         } else {
-            this.parent.hit(this, source, dt)
+            this.parent.hit(this, attacker, dt)
+            attacker.bite(this.team, 2)
         }
     }
 
-    touch(critter, dt) {
-        if (!critter) return
-        const head = critter.head
+    touch(attacker, dt) {
+        if (!attacker) return
+        const head = attacker.head
         if (!head) return
 
-        const jx = head.x + cos(critter.fi) * head.r
-        const jy = head.y + sin(critter.fi) * head.r
+        const jx = head.x + cos(attacker.fi) * head.r
+        const jy = head.y + sin(attacker.fi) * head.r
 
         const d = dist(this.x, this.y, jx, jy)
         const r = this.r + head.r * .5
         if (d < r) {
-            this.hit(critter, dt)
+            this.hit(attacker, dt)
         }
     }
 

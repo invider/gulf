@@ -42,6 +42,8 @@ class Critter {
         augment(this, st)
         supplement(this, dna.trait.podable)
 
+        this.installPod(new dna.cpod.Fragments())
+
         // set default bot
         if (!this.bot) {
             this.bot = sys.clone(dna.bot.hunter)
@@ -87,6 +89,7 @@ class Critter {
     eat(cell) {
         const hp = this.heal(cell.hp)
         this.upgrade(hp)
+        this.bite(cell.team, 25)
     }
 
     heal(hp) {
@@ -262,6 +265,7 @@ class Critter {
         this.turnAtBearing(b, dt)
     }
 
+    // TODO move to Jaws pod
     moveJaws(dt) {
         if (this.jawDir < 0) {
             this.jawRate -= this.jawSpeed * dt
@@ -284,6 +288,14 @@ class Critter {
         if (!env.opt.friendlyAttack && target.parent
                 && target.team === this.team) return
         target.touch(this, dt)
+    }
+
+    bite(team, force) {
+        const head = this.head
+        const x = head.x + cos(this.fi) * head.r
+        const y = head.y + sin(this.fi) * head.r
+        const color = lib.util.teamColor(team)
+        this.fragments.spawn(x, y, color, force)
     }
 
     evo(dt) {
@@ -334,15 +346,28 @@ class Critter {
                 this.slowDown(dt)
                 break
         }
+
         this.adjustSpeed(dt)
         this.move(dt)
         this.moveJaws(dt)
         if (!this.player) {
             this.bot.evo(dt)
         }
+
+        // evolve pods
+        for (let i = 0; i < this.pods.length; i++) {
+            const pod = this.pods[i]
+            if (pod && pod.evo) pod.evo(dt)
+        }
     }
 
     draw() {
+        // draw pods
+        for (let i = 0; i < this.pods.length; i++) {
+            const pod = this.pods[i]
+            if (pod && pod.draw) pod.draw()
+        }
+
         // highlight target
         if (this.target) {
             fill( lib.util.teamColor(this.team) )

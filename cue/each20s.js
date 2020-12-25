@@ -9,7 +9,7 @@ module.exports = function() {
         })
     }, RND(1, 15))
 
-    setTImeout(() => {
+    setTimeout(() => {
         const team = 2
         if (env.stat.population(team) > env.tune.maxPopulation(1)) return
         trap('critter', {
