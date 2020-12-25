@@ -37,8 +37,10 @@ class Critter {
     constructor(st) {
         this.fi = lib.math.rndfi()
         this.name = 'critter' + (++id)
+
         augment(this, df)
         augment(this, st)
+        supplement(this, dna.trait.podable)
 
         // set default bot
         if (!this.bot) {
@@ -52,6 +54,7 @@ class Critter {
         cell.parent = this
         cell.team = this.team
         if (!this.head) {
+            // first segment
             this.head = cell
             this.head.installPod(new dna.pod.Jaw())
             this.tail = cell

@@ -43,22 +43,8 @@ class Cell {
         this.name = 'cell' + (++id)
         augment(this, df)
         augment(this, st)
+        supplement(this, dna.trait.podable)
         if (!this.capacity) this.capacity = this.hp
-    }
-
-    installPod(pod) {
-        pod.__ = this
-        if (!this.pods) this.pods = []
-        this.pods.push(pod)
-        if (pod.onInstall) pod.onInstall()
-    }
-
-    uninstallPod(pod) {
-        if (!pod) return
-        const i = this.pods.indexOf(pod)
-        if (i < 0) return
-        if (pod.onUninstall) pod.onUninstall()
-        this.pods.splice(i, 1)
     }
 
     heal(hp) {
