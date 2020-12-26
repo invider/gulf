@@ -1,3 +1,3 @@
 const opt = {
-    friendlyAttack: false,
+    friendlyAttack: true,
 }
