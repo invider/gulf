@@ -76,7 +76,7 @@ class Cell {
             attacker.eat(this)
         } else {
             this.parent.hit(this, attacker, dt)
-            attacker.bite(this.team, 2)
+            attacker.bite(this.team, 1)
         }
     }
 

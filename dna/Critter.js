@@ -89,7 +89,7 @@ class Critter {
     eat(cell) {
         const hp = this.heal(cell.hp)
         this.upgrade(hp)
-        this.bite(cell.team, 25)
+        this.bite(cell.team, 15)
     }
 
     heal(hp) {
@@ -295,7 +295,7 @@ class Critter {
         const x = head.x + cos(this.fi) * head.r
         const y = head.y + sin(this.fi) * head.r
         const color = lib.util.teamColor(team)
-        this.fragments.spawn(x, y, color, force)
+        this.fragments.spawn(x, y, this.fi, color, force)
     }
 
     evo(dt) {

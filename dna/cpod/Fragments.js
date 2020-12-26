@@ -9,7 +9,7 @@ class Fragments {
         augment(this, st)
     }
 
-    spawn(x, y, color, force) {
+    spawn(x, y, fi, color, force) {
         // find empty slot
         let bit
         for (let i = 0; i < this.bits.length; i++) {
@@ -27,11 +27,13 @@ class Fragments {
         bit.x = x
         bit.y = y
 
-        const fi = lib.math.rndfi()
-        bit.dx = cos(fi) * 20
-        bit.dy =  sin(fi) * 20
+        const dir = fi + lib.math.rnds() * HALF_PI
+                + lib.math.rnds() * rnd(.1 * PI)
+        const speed = 5 + rnd(25)
+        bit.dx = cos(dir) * speed
+        bit.dy = sin(dir) * speed
 
-        if (force > 0) this.spawn(x, y, color, force - 1)
+        if (force > 0) this.spawn(x, y, fi, color, force - 1)
     }
 
     evo(dt) {
