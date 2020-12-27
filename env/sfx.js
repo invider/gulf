@@ -13,7 +13,7 @@ module.exports = {
         vol: .4,
     },
     eat: {
-        scope: PERSONAL,
+        scope: LOCAL,
         res: 'bubble2',
         vol: .3,
     },
