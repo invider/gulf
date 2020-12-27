@@ -17,6 +17,11 @@ module.exports = {
         res: 'bubble2',
         vol: .3,
     },
+    grow: {
+        scope: PERSONAL,
+        res: 'pop',
+        vol: .8,
+    },
     default: {
         scope: GLOBAL,
         res: 'bubble2',

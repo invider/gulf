@@ -5,4 +5,6 @@ const tune = {
 
     minCurrentTime: 20,
     varCurrentTime: 40,
+
+    growthDelay: .5,
 }

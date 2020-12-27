@@ -113,15 +113,18 @@ class Critter {
     grow(hp) {
         if (hp < 10) return
 
-        const targetLevel = RND(1, 5)
-        const next = lab.sea.bio.spawn(dna.Cell, {
-            x: this.tail.x,
-            y: this.tail.y,
-            r:  10,
-            hp: 10,
-            targetLevel: targetLevel,
-        })
-        this.attach(next)
+        setTimeout(() => {
+            const targetLevel = RND(1, 5)
+            const next = lab.sea.bio.spawn(dna.Cell, {
+                x: this.tail.x,
+                y: this.tail.y,
+                r:  10,
+                hp: 10,
+                targetLevel: targetLevel,
+            })
+            this.attach(next)
+            lab.sea.sfx('grow', next.x, next.y, this)
+        }, env.tune.growthDelay * 1000)
     }
 
     moveTo(x, y) {
