@@ -523,6 +523,8 @@ class Critter {
             cur.free()
             cur = next
         }
+
+        lab.sea.sfx('hit', segment.x, segment.y, this)
     }
 
     onReached() {}

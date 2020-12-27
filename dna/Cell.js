@@ -74,6 +74,7 @@ class Cell {
         if (!this.parent) {
             this.kill()
             attacker.eat(this)
+            lab.sea.sfx('eat', this.x, this.y, this)
         } else {
             this.parent.hit(this, attacker, dt)
             attacker.bite(this.team, 1)
