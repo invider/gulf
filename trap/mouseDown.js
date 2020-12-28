@@ -24,6 +24,7 @@ function mouseDown(e) {
             speed: 120,
             timespan: .3,
         })
+        lab.sea.sfx('target', lx, ly)
 
     } else if (e.buttons & 2) {
         const ls = []

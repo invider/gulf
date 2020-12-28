@@ -22,6 +22,11 @@ module.exports = {
         res: 'pop',
         vol: .8,
     },
+    target: {
+        scope: GLOBAL,
+        res: 'item',
+        vol: .4,
+    },
     default: {
         scope: GLOBAL,
         res: 'bubble2',

@@ -25,7 +25,6 @@ by FullMetalJedi from freesound.org
 Licensed under Creative Commons 0 License.
 https://freesound.org/people/FullMetalJedi/sounds/382943/
 
-
 * strangeAmbientNoise.wav
 by Nadia4Sound from freesound.org
 Licensed under Creative Commons Attribution License.
@@ -36,5 +35,14 @@ by Erokia from freesound.org
 Licensed under Creative Commons Attribution License.
 https://freesound.org/people/Erokia/sounds/475208/
 
+* horrorStinger.wav
+by Mozfoo from freesound.org
+Licensed under the Creative Commons 0 License.
+https://freesound.org/people/Mozfoo/sounds/440166/
+
+* item.wav
+by Vicces1212 from freesound.org
+Licensed under the Attribution License.
+https://freesound.org/people/Vicces1212/sounds/123758/
 
 
