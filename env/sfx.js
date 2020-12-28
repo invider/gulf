@@ -7,6 +7,11 @@ module.exports = {
     LOCAL: LOCAL,
     PERSONAL: PERSONAL,
 
+    born: {
+        scope: LOCAL,
+        res: 'underwaterPass',
+        vol: .8,
+    },
     hit: {
         scope: LOCAL,
         res: 'bubble2',

@@ -503,6 +503,7 @@ class Critter {
             cur = cur.next
         }
         creature.tail = last
+        lab.sea.sfx('born', creature.head.x, creature.head.y, creature)
     }
 
     cut(segment) {

@@ -24,4 +24,6 @@ function critter(st) {
     for (let i = 0; i < 3; i++) {
         creature.tail.promote()
     }
+
+    lab.sea.sfx('born', creature.head.x, creature.head.y, creature)
 }

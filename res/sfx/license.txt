@@ -4,7 +4,6 @@ by Glaneur de sons from freesound.org
 Licensed under Creative Commons Attribution License.
 https://freesound.org/people/Glaneur%20de%20sons/sounds/104940/
 
-
 * bubble3.wav
 by elmasmalo1 from freesound.org
 Licensed under Creative Commons Attribution License.
@@ -42,7 +41,21 @@ https://freesound.org/people/Mozfoo/sounds/440166/
 
 * item.wav
 by Vicces1212 from freesound.org
-Licensed under the Attribution License.
+Licensed under the Creative Commons Attribution License.
 https://freesound.org/people/Vicces1212/sounds/123758/
 
+* underwaterPass.wav
+by Mmmulder from freesound.org
+Licensed under the Creative Commons 0 License.
+https://freesound.org/people/Mmmulder/sounds/463557/
+
+* disturbance.wav
+by MATRIXXX_ from freesound.org
+Licensed under the Creative Commons 0 License.
+https://freesound.org/people/MATRIXXX_/sounds/396576/
+
+* signal.wav
+by MATRIXXX_ from freesound.org
+Licensed under the Creative Commons Attribution License.
+https://freesound.org/people/MATRIXXX_/sounds/448743/
 
