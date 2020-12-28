@@ -541,5 +541,7 @@ class Critter {
         defer(() => { 
             self.__.detach(self)
         })
+
+        lab.sea.sfx('death', this.head.x, this.head.y, this)
     }
 }

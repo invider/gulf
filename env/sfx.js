@@ -10,7 +10,7 @@ module.exports = {
     born: {
         scope: LOCAL,
         res: 'underwaterPass',
-        vol: .8,
+        vol: 1,
     },
     hit: {
         scope: LOCAL,
@@ -27,6 +27,12 @@ module.exports = {
         res: 'pop',
         vol: .8,
     },
+    death: {
+        scope: LOCAL,
+        res: 'organicKlik',
+        vol: .8,
+    },
+
     target: {
         scope: GLOBAL,
         res: 'item',
