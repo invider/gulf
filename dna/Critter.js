@@ -89,7 +89,7 @@ class Critter {
     eat(cell) {
         const hp = this.heal(cell.hp)
         this.upgrade(hp)
-        this.bite(cell.team, 15)
+        this.bite(cell.team, 2)
     }
 
     heal(hp) {
@@ -293,12 +293,49 @@ class Critter {
         target.touch(this, dt)
     }
 
-    bite(team, force) {
+    bite(team, type) {
         const head = this.head
         const x = head.x + cos(this.fi) * head.r
         const y = head.y + sin(this.fi) * head.r
         const color = lib.util.teamColor(team)
-        this.fragments.spawn(x, y, this.fi, color, force)
+
+        switch(type) {
+            case 1:
+                if (rnd() < .1) {
+                    this.fragments.spawn({
+                        x: x,
+                        y: y,
+                        fi: this.fi,
+                        type: 2, 
+                        color: color
+                    }, 1)
+                } else {
+                    this.fragments.spawn({
+                        x: x,
+                        y: y,
+                        fi: this.fi,
+                        type: 1, 
+                        color: color
+                    }, 1)
+                }
+                break
+            case 2:
+                this.fragments.spawn({
+                    x: x,
+                    y: y,
+                    //fi: this.fi,
+                    type: 1, 
+                    color: color
+                }, RND(10))
+                this.fragments.spawn({
+                    x: x,
+                    y: y,
+                    //fi: this.fi,
+                    type: 2, 
+                    color: color
+                }, RND(3))
+                break
+        }
     }
 
     evo(dt) {
